@@ -1,6 +1,5 @@
-package bibliotecaApp.entity;
+package bibliotecaApp.Entity;
 
-import bibliotecaApp.entity.DomainEntity;
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;
 

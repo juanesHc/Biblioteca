@@ -1,4 +1,4 @@
-package bibliotecaApp.dto;
+package bibliotecaApp.DTO;
 
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;

@@ -1,7 +1,5 @@
 package bibliotecaApp.Domain;
 
-import bibliotecaApp.dto.RoleDTO;
-import bibliotecaApp.dto.TypeIDDTO;
 import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;

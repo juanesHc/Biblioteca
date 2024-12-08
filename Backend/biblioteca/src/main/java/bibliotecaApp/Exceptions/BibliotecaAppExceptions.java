@@ -1,4 +1,4 @@
-package bibliotecaApp.exceptions;
+package bibliotecaApp.Exceptions;
 
 import crosscutting.exceptions.BibliotecaApplicationException;
 import crosscutting.exceptions.enums.Layer;

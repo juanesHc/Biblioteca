@@ -1,6 +1,6 @@
 package bibliotecaApp.Data.DAOInterface;
 
-import bibliotecaApp.entity.RoleEntity;
+import bibliotecaApp.Entity.RoleEntity;
 
 import java.util.UUID;
 

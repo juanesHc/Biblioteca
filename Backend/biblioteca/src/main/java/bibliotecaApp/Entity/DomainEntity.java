@@ -1,4 +1,4 @@
-package bibliotecaApp.entity;
+package bibliotecaApp.Entity;
 
 import crosscutting.helpers.UUIDHelper;
 import java.util.UUID;
