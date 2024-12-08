@@ -1,4 +1,4 @@
-package bibliotecaApp.DAOInterface;
+package bibliotecaApp.Data.DAOInterface;
 
 import bibliotecaApp.entity.TypeIDEntity;
 
