@@ -2,11 +2,17 @@ package bibliotecaApp.Data.DAO;
 
 import bibliotecaApp.Data.DAOInterface.RoleDAO;
 import bibliotecaApp.Entity.RoleEntity;
+import bibliotecaApp.Entity.TypeIDEntity;
+import bibliotecaApp.Exceptions.DataException;
+import crosscutting.exceptions.enums.Layer;
 import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,42 +25,61 @@ public class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
         super(connection);
     }
 
-    @Override
-    public void create(RoleEntity data) {
-
-    }
-
-    @Override
-    public void delete(UUID data) {
-
-    }
 
     @Override
     public RoleEntity findById(UUID id) {
-        return null;
+        var roleEntityFilter=new RoleEntity();
+        var result = findByFilter(roleEntityFilter.setId(id));
+        return (result.isEmpty()? new RoleEntity():result.getFirst());
     }
 
     @Override
     public List<RoleEntity> findAll() {
-        return List.of();
+        return findByFilter(new RoleEntity());
     }
 
     @Override
     public List<RoleEntity> findByFilter(RoleEntity filter) {
-        final var statement = new StringBuilder();
-        final var parameters = new ArrayList<>();
+        var statement= new StringBuilder();
+        var parameters=new ArrayList<>();
+        var resultSelect= new ArrayList<RoleEntity>();
 
         createSelect(statement);
         createFrom(statement);
-        createWhere(statement, filter, parameters);
+        createWhere(statement,filter,parameters);
         createOrderBy(statement);
+
+        try(final var preparedStatement=getConnection().prepareStatement(statement.toString())){
+            for (int arrayIndex = 0; arrayIndex < parameters.size(); arrayIndex++) {
+                var statementIndex= arrayIndex+1;
+                preparedStatement.setObject(statementIndex,parameters.getFirst());
+
+                try (final var result=preparedStatement.executeQuery();){
+
+                    while(result.next()){
+                        var roleEntityTmp=new RoleEntity();
+
+                        roleEntityTmp.setId(UUIDHelper.convertToUUID(result.getString("id")));
+                        roleEntityTmp.setName(result.getString("name"));
+
+                        resultSelect.add(roleEntityTmp);
+                    }
+
+                }catch(SQLException e){
+                    var userMessage="";
+                    var technicalMessage="";
+                    throw DataException.create(userMessage,technicalMessage,e);
+
+                }
+            }
+
+        }catch (SQLException sqlException){
+            var userMessage="";
+            var technicalMessage="";
+            throw DataException.create(userMessage,technicalMessage,sqlException);
+        }
+
         return List.of();
-
-    }
-
-    @Override
-    public void update(RoleEntity data) {
-
     }
 
     private void createSelect(final StringBuilder statement) {

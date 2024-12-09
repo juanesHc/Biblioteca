@@ -5,3 +5,5 @@ public enum Layer {
 	GENERAL, DATA, BUSINESSLOGIC, CONTROLLER, DTO, ENTITY, DOMAIN
 
 }
+
+

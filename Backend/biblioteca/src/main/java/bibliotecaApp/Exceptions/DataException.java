@@ -10,13 +10,13 @@ public class DataException extends BibliotecaAppExceptions {
     public DataException(final String userMessage,
                          final String technicalMessage,
                          final Exception rootException){
-        super(userMessage, technicalMessage, rootException, Layer.GENERAL);
+        super(userMessage, technicalMessage, rootException, Layer.DATA);
     }
 
     public static DataException create(final String userMessage,
                                        final String technicalMessage,
-                                       final Exception rootException,
-                                       final Layer layer){
+                                       final Exception rootException
+                                       ){
         return new DataException(userMessage, technicalMessage, rootException);
 
     }

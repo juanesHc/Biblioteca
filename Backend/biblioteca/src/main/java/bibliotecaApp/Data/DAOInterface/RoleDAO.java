@@ -5,5 +5,5 @@ import bibliotecaApp.Entity.RoleEntity;
 import java.util.UUID;
 
 public interface RoleDAO
-        extends CreateDAO<RoleEntity>,DeleteDAO<UUID>,UpdateDAO<RoleEntity>,RetrieveDAO<RoleEntity, UUID>{
+        extends RetrieveDAO<RoleEntity, UUID>{
 }
