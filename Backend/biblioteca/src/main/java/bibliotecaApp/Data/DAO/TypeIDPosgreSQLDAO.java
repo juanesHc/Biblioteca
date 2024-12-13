@@ -10,6 +10,7 @@ import crosscutting.helpers.UUIDHelper;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,41 +36,33 @@ public class TypeIDPosgreSQLDAO extends SQLDAO implements TypeIDDAO {
 
     @Override
     public List<TypeIDEntity> findByFilter(TypeIDEntity filter) {
-        var statement = new StringBuilder();
-        var parameters = new ArrayList<>();
-        final var resultSelect = new ArrayList<TypeIDEntity>();
+        var statement=new StringBuilder();
+        var parameters= new ArrayList<>();
+        var results=new ArrayList<TypeIDEntity>();
 
         createSelect(statement);
         createFrom(statement);
         createWhere(statement,filter,parameters);
         createOrderBy(statement);
 
-        try (final var preparedStatement =getConnection().prepareStatement(statement.toString())){
+       try (final var preparedStatement=getConnection().prepareStatement(statement.toString())){
+           for (int parametersIndex = 0; parametersIndex < parameters.size(); parametersIndex++) {
+               var statementIndex=parametersIndex+1;
+                preparedStatement.setObject(statementIndex,parameters.get(parametersIndex));
+               var resultSet=preparedStatement.executeQuery();
 
-            for (var arrayIndex = 0; arrayIndex < parameters.size(); arrayIndex++) {
-                var statementIndex=arrayIndex+1;
-                preparedStatement.setObject(statementIndex,parameters.get(arrayIndex));
-            }
-            try(final var result=preparedStatement.executeQuery()){
+               while (resultSet.next()){
+                   var typeIDTmp=new TypeIDEntity();
+                   typeIDTmp.setId(UUIDHelper.convertToUUID(resultSet.getString("id"))).setName(resultSet.getString("name"));
+                   results.add(typeIDTmp);
+               }
+           }
 
-                while(result.next()){
-                    var typeIDEntityTmp= new TypeIDEntity();
-                    typeIDEntityTmp.setId(UUIDHelper.convertToUUID(result.getString("id")));
-                    typeIDEntityTmp.setName(result.getString("name"));
 
-                    resultSelect.add(typeIDEntityTmp);
-                }
 
-            }catch (final SQLException exception){
-                var userMessage="Se ha presentado un problema llevando a cabo la consulta de roles por filtro, por favor intente de nuevo";
-                var technicalMessage="Se ha presentado un problema llevando a cabo la consulta de roles por filtro en PosgreSQL , por favor revise el log de errores";
-                throw DataException.create(userMessage,technicalMessage,exception);
-            }
-        }catch (final SQLException exception){
-            throw DataException.create(ErrorMessagesSQL.ROLE_QUERY_ERROR.getUserMessage(),ErrorMessagesSQL.ROLE_QUERY_ERROR.getTechnicalMessage(),exception);
-        }
+       }catch(SQLException sqlException){throw DataException.create("u","t",sqlException);}
 
-        return resultSelect;
+        return results;
     }
 
     private void createSelect(final StringBuilder statement){

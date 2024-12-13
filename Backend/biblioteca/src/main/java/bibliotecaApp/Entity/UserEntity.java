@@ -25,6 +25,7 @@ public class UserEntity extends DomainEntity {
     private TypeIDEntity typeID;
 
     public static UserEntity create(){
+
         return new UserEntity();
     }
 

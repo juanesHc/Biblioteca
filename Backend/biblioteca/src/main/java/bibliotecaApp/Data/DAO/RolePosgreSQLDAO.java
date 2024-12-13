@@ -4,6 +4,7 @@ import bibliotecaApp.Data.DAOInterface.RoleDAO;
 import bibliotecaApp.Entity.RoleEntity;
 import bibliotecaApp.Entity.TypeIDEntity;
 import bibliotecaApp.Exceptions.DataException;
+import crosscutting.exceptions.enums.ErrorMessagesSQL;
 import crosscutting.exceptions.enums.Layer;
 import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
@@ -74,12 +75,10 @@ public class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
             }
 
         }catch (SQLException sqlException){
-            var userMessage="";
-            var technicalMessage="";
-            throw DataException.create(userMessage,technicalMessage,sqlException);
+            throw DataException.create(ErrorMessagesSQL.ROLE_QUERY_ERROR.getUserMessage(),ErrorMessagesSQL.ROLE_QUERY_ERROR.getTechnicalMessage(),sqlException);
         }
 
-        return List.of();
+        return resultSelect;
     }
 
     private void createSelect(final StringBuilder statement) {

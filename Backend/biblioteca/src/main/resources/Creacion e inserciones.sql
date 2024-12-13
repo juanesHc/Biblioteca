@@ -11,12 +11,11 @@ CREATE TABLE TypeID (
 );
 
 CREATE TABLE User (
-	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	id int PRIMARY KEY DEFAULT,
 	userName VARCHAR(50) NOT NULL,
 	email VARCHAR(75) NOT NULL,
 	bornDate DATE NOT NULL,
 	password Varchar(128) NOT NULL,
-	IDNumber int not null,
     ID_Role UUID REFERENCES Role(id) ON DELETE SET NULL, 
     ID_TypeID UUID REFERENCES TypeID(id) ON DELETE SET NULL
 );
