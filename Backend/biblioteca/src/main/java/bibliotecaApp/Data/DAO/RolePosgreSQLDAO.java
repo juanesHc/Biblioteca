@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
+class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
 
 
     protected RolePosgreSQLDAO(Connection connection) {

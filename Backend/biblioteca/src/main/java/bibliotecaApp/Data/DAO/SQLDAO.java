@@ -5,7 +5,7 @@ import crosscutting.helpers.SQLConnectionHelper;
 
 import java.sql.Connection;
 
-public class SQLDAO {
+class SQLDAO {
 
     private Connection connection;
 

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static java.sql.DriverManager.getConnection;
 
-public class TypeIDPosgreSQLDAO extends SQLDAO implements TypeIDDAO {
+class TypeIDPosgreSQLDAO extends SQLDAO implements TypeIDDAO {
     protected TypeIDPosgreSQLDAO(Connection connection) {
         super(connection);
     }

@@ -5,6 +5,7 @@ import bibliotecaApp.Entity.RoleEntity;
 import bibliotecaApp.Entity.TypeIDEntity;
 import bibliotecaApp.Entity.UserEntity;
 import bibliotecaApp.Exceptions.DataException;
+import crosscutting.exceptions.enums.ErrorMessagesSQL;
 import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
+class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
     protected UserPosgreSQLDAO(Connection connection) {
         super(connection);
     }
@@ -33,9 +34,8 @@ public class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
             preparedStatement.setObject(6,data.getRole());
             preparedStatement.setObject(7,data.getTypeID());
         }catch(SQLException sqlException){
-            var userMessage="user";
-            var technicalMessage="tec";
-            throw new DataException(userMessage,technicalMessage,sqlException);
+
+            throw new DataException(ErrorMessagesSQL.ROLE_QUERY_ERROR.getUserMessage(),ErrorMessagesSQL.ROLE_QUERY_ERROR.getTechnicalMessage(), sqlException);
 
         }
     }
@@ -105,7 +105,7 @@ public class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
             }
 
         }catch(SQLException sqlException){
-            throw DataException.create("UserMessage","TechnicalMessage",sqlException);
+            throw DataException.create(ErrorMessagesSQL.ROLE_QUERY_ERROR.getUserMessage(),ErrorMessagesSQL.ROLE_QUERY_ERROR.getTechnicalMessage(),sqlException);
         }
 
 
