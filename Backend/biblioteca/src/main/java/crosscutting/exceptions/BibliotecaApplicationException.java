@@ -1,7 +1,7 @@
 package crosscutting.exceptions;
 
 
-import crosscutting.exceptions.enums.Layer;
+import crosscutting.messages.Layer;
 import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 

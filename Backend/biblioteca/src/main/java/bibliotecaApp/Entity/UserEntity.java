@@ -4,6 +4,8 @@ import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class UserEntity extends DomainEntity {
@@ -12,17 +14,15 @@ public class UserEntity extends DomainEntity {
         setPassword(TextHelper.EMPTY);
         setEmail(TextHelper.EMPTY);
         setUserName(TextHelper.EMPTY);
-        setBornDate(TextHelper.EMPTY);
-        setTypeID(new TypeIDEntity());
+        setBornDate(TextHelper.EMPTYBORNDATE);
         setRole(new RoleEntity());
     }
 
     private String userName;
     private String email;
     private String password;
-    private String bornDate ;
+    private LocalDate bornDate ;
     private RoleEntity role;
-    private TypeIDEntity typeID;
 
     public static UserEntity create(){
 
@@ -57,11 +57,11 @@ public class UserEntity extends DomainEntity {
         return this;
     }
 
-    public String getBornDate() {
+    public LocalDate getBornDate() {
         return bornDate;
     }
 
-    public UserEntity setBornDate(final String bornDate) {
+    public UserEntity setBornDate(final LocalDate bornDate) {
         this.bornDate = bornDate;
         return this;
     }
@@ -81,15 +81,6 @@ public class UserEntity extends DomainEntity {
 
     public UserEntity setRole(final RoleEntity role) {
         this.role = ObjectHelper.getDefault(role,new RoleEntity());
-        return this;
-    }
-
-    public TypeIDEntity getTypeID() {
-        return typeID;
-    }
-
-    public UserEntity setTypeID(final TypeIDEntity typeID) {
-        this.typeID =ObjectHelper.getDefault(typeID,new TypeIDEntity());
         return this;
     }
 

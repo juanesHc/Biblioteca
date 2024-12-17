@@ -1,7 +1,7 @@
 package crosscutting.helpers;
 
 import crosscutting.exceptions.BibliotecaApplicationException;
-import crosscutting.exceptions.enums.Layer;
+import crosscutting.messages.Layer;
 
 import java.sql.Connection;
 import java.sql.SQLException;

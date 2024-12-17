@@ -1,6 +1,6 @@
 package bibliotecaApp.Exceptions;
 
-import crosscutting.exceptions.enums.Layer;
+import crosscutting.messages.Layer;
 
 public class EntityException extends BibliotecaAppExceptions {
 

@@ -1,9 +1,8 @@
 package bibliotecaApp.Data.DAO;
 
 import bibliotecaApp.Data.DAOInterface.RoleDAO;
-import bibliotecaApp.Data.DAOInterface.TypeIDDAO;
 import bibliotecaApp.Data.DAOInterface.UserDAO;
-import crosscutting.exceptions.enums.DAOSource;
+import crosscutting.messages.DAOSource;
 
 public abstract class DAOFactory {
 
@@ -22,8 +21,6 @@ public abstract class DAOFactory {
     public abstract void closeTransaction();
 
     public abstract RoleDAO getRoleDAO();
-
-    public abstract TypeIDDAO getTypeIDDAO();
 
     public abstract UserDAO getUserDAO();
 

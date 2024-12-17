@@ -1,9 +1,13 @@
 package crosscutting.helpers;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class TextHelper {
     public static final String EMPTY = "";
     public static final String ONLY_LETTERS_SPACES = "^[A-Za-záÁéÉíÍóÓúÚñÑ]+(?: [A-Za-záÁéÉíÍóÓúÚñÑ]+)*$";
     public static final String ONLY_NUMBERS = "^[0-9]*$";
+    public static final LocalDate EMPTYBORNDATE=LocalDate.of(1001, 1, 1);;
 
     private TextHelper() {
 

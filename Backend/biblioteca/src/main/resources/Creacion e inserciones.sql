@@ -1,32 +1,44 @@
+/*Creacion esquema donde estan las tablas*/
+CREATE SCHEMA juego;
+
+/*Creacion extension para UUID*/
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-CREATE TABLE Role (
+/*Creacion tabla en el esquema*/
+CREATE TABLE juego.role (
 	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 	name VARCHAR(13) NOT NULL
 );
 
-CREATE TABLE TypeID (
-	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-	name VARCHAR(50) NOT NULL
-);
 
-CREATE TABLE User (
-	id int PRIMARY KEY DEFAULT,
+CREATE TABLE juego.user (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 	userName VARCHAR(50) NOT NULL,
 	email VARCHAR(75) NOT NULL,
 	bornDate DATE NOT NULL,
 	password Varchar(128) NOT NULL,
-    ID_Role UUID REFERENCES Role(id) ON DELETE SET NULL, 
-    ID_TypeID UUID REFERENCES TypeID(id) ON DELETE SET NULL
+    id_role UUID REFERENCES juego.role(id) ON DELETE SET NULL
+
 );
 
-INSERT INTO Role (name) VALUES 
-    ('Cliente'),
+/*Inserta los valores por defecto en la tabla rol*/
+INSERT INTO juego.role (name) VALUES
+    ('Usuario'),
     ('Administrador');
 
-INSERT INTO TypeID (name) VALUES 
-    ('Cédula'),
-    ('Pasaporte'),
-    ('Licencia de conducción'),
-    ('Tarjeta de identidad'),
-    ('RUT');
+
+/*Query para ver la tabla rol*/
+select
+		id,
+		name
+from juego.role;
+
+/*Query para ver la tabla user*/
+select
+		id,
+		userName,
+		email,
+		bornDate,
+		password,
+		id_role
+from juego.user;

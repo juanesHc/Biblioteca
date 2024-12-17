@@ -1,4 +1,4 @@
-package crosscutting.exceptions.enums;
+package crosscutting.messages;
 
 public enum Layer {
 	

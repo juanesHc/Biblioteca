@@ -11,7 +11,6 @@ public class UserDTO extends DomainDTO{
         setEmail(TextHelper.EMPTY);
         setUserName(TextHelper.EMPTY);
         setBornDate(TextHelper.EMPTY);
-        setTypeID(new TypeIDDTO());
         setRole(new RoleDTO());
     }
 
@@ -20,7 +19,6 @@ public class UserDTO extends DomainDTO{
     private String password;
     private String bornDate ;
     private RoleDTO role;
-    private TypeIDDTO typeID;
 
     public static UserDTO create(){
         return new UserDTO();
@@ -78,15 +76,6 @@ public class UserDTO extends DomainDTO{
 
     public UserDTO setRole(final RoleDTO role) {
         this.role = ObjectHelper.getDefault(role,new RoleDTO());
-        return this;
-    }
-
-    public TypeIDDTO getTypeID() {
-        return typeID;
-    }
-
-    public UserDTO setTypeID(final TypeIDDTO typeID) {
-        this.typeID =ObjectHelper.getDefault(typeID,new TypeIDDTO());
         return this;
     }
 

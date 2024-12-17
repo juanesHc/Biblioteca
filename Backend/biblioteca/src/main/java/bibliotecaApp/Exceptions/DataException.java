@@ -1,7 +1,6 @@
 package bibliotecaApp.Exceptions;
 
-import crosscutting.exceptions.BibliotecaApplicationException;
-import crosscutting.exceptions.enums.Layer;
+import crosscutting.messages.Layer;
 
 public class DataException extends BibliotecaAppExceptions {
 

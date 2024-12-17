@@ -2,21 +2,16 @@ package bibliotecaApp.Data.DAO;
 
 import bibliotecaApp.Data.DAOInterface.RoleDAO;
 import bibliotecaApp.Entity.RoleEntity;
-import bibliotecaApp.Entity.TypeIDEntity;
 import bibliotecaApp.Exceptions.DataException;
-import crosscutting.exceptions.enums.ErrorMessagesSQL;
-import crosscutting.exceptions.enums.Layer;
 import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;
+import crosscutting.messages.ErrorMessage;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
@@ -67,15 +62,17 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
                     }
 
                 }catch(SQLException e){
-                    var userMessage="";
-                    var technicalMessage="";
-                    throw DataException.create(userMessage,technicalMessage,e);
+                    throw DataException.create(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
+                            ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(),
+                            e);
 
                 }
             }
 
         }catch (SQLException sqlException){
-            throw DataException.create(ErrorMessagesSQL.ROLE_QUERY_ERROR.getUserMessage(),ErrorMessagesSQL.ROLE_QUERY_ERROR.getTechnicalMessage(),sqlException);
+            throw DataException.create(ErrorMessage.PREPARING_QUERY.getUserMessage(),
+                    ErrorMessage.PREPARING_QUERY.getTechnicalMessage(),
+                    sqlException);
         }
 
         return resultSelect;

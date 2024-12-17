@@ -14,16 +14,14 @@ public class UserDomain extends Domain{
     private String bornDate ;
     private RoleDomain role;
 
-    private TypeIDDomain typeID;
 
-    private UserDomain(final UUID id,final String userName,final String email,final String password,final String bornDate,final RoleDomain role,final TypeIDDomain typeID) {
+    private UserDomain(final UUID id,final String userName,final String email,final String password,final String bornDate,final RoleDomain role) {
         super(id);
         setUserName(userName);
         setEmail(email);
         setPassword(password);
         setBornDate(bornDate);
         setRole(role);
-        setTypeID(typeID);
     }
 
     public String getUserName() {
@@ -63,14 +61,6 @@ public class UserDomain extends Domain{
         return super.getId();
     }
 
-    public TypeIDDomain getTypeID() {
-        return typeID;
-    }
-
-    public void setTypeID(TypeIDDomain typeID) {
-        this.typeID =ObjectHelper.getDefault(typeID,TypeIDDomain.create());
-    }
-
     public RoleDomain getRole() {
         return role;
     }
@@ -79,12 +69,12 @@ public class UserDomain extends Domain{
         this.role =ObjectHelper.getDefault(role,RoleDomain.create());
     }
 
-    public static final UserDomain create(final UUID id,final String userName,final String email,final String password,final String bornDate,final RoleDomain role,final TypeIDDomain typeID){
-        return new UserDomain(id,userName,email,password,bornDate,role,typeID);
+    public static final UserDomain create(final UUID id,final String userName,final String email,final String password,final String bornDate,final RoleDomain role){
+        return new UserDomain(id,userName,email,password,bornDate,role);
     }
 
     static final UserDomain create(){
-        return new UserDomain(UUIDHelper.getDefault(),TextHelper.EMPTY,TextHelper.EMPTY,TextHelper.EMPTY,TextHelper.EMPTY,RoleDomain.create(),TypeIDDomain.create());
+        return new UserDomain(UUIDHelper.getDefault(),TextHelper.EMPTY,TextHelper.EMPTY,TextHelper.EMPTY,TextHelper.EMPTY,RoleDomain.create());
     }
 
 

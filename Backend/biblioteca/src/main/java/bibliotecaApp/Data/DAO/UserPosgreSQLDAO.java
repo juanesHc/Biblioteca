@@ -2,13 +2,12 @@ package bibliotecaApp.Data.DAO;
 
 import bibliotecaApp.Data.DAOInterface.UserDAO;
 import bibliotecaApp.Entity.RoleEntity;
-import bibliotecaApp.Entity.TypeIDEntity;
 import bibliotecaApp.Entity.UserEntity;
 import bibliotecaApp.Exceptions.DataException;
-import crosscutting.exceptions.enums.ErrorMessagesSQL;
 import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;
+import crosscutting.messages.ErrorMessage;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -32,10 +31,9 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
             preparedStatement.setObject(4,data.getBornDate());
             preparedStatement.setObject(5,data.getPassword());
             preparedStatement.setObject(6,data.getRole());
-            preparedStatement.setObject(7,data.getTypeID());
         }catch(SQLException sqlException){
 
-            throw new DataException(ErrorMessagesSQL.ROLE_QUERY_ERROR.getUserMessage(),ErrorMessagesSQL.ROLE_QUERY_ERROR.getTechnicalMessage(), sqlException);
+            throw new DataException(ErrorMessage.EXECUTING_QUERY.getUserMessage(),ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(), sqlException);
 
         }
     }
@@ -82,30 +80,25 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
             while(resultQuery.next()){
                 var userEntityTmp=new UserEntity();
                 var roleEntityTmp=new RoleEntity();
-                var typeIDEntityTmp=new TypeIDEntity();
 
                 userEntityTmp.setUserName(resultQuery.getString("userName"));
                 userEntityTmp.setId(UUIDHelper.convertToUUID(resultQuery.getString("id")));
                 userEntityTmp.setEmail(resultQuery.getString("email"));
                 userEntityTmp.setPassword(resultQuery.getString("password"));
-                userEntityTmp.setBornDate(String.valueOf(resultQuery.getDate("bornDate")));
+                userEntityTmp.setBornDate(resultQuery.getDate("bornDate").toLocalDate());
                 userEntityTmp.setRole(new RoleEntity());
 
                 roleEntityTmp.setId(UUIDHelper.convertToUUID(resultQuery.getString("id")));
                 roleEntityTmp.setName(resultQuery.getString("name"));
 
-                typeIDEntityTmp.setId(UUIDHelper.convertToUUID(resultQuery.getString("id")));
-                typeIDEntityTmp.setName(resultQuery.getString("name"));
-
                 userEntityTmp.setRole(roleEntityTmp);
-                userEntityTmp.setTypeID(typeIDEntityTmp);
 
                 results.add(userEntityTmp);
 
             }
 
         }catch(SQLException sqlException){
-            throw DataException.create(ErrorMessagesSQL.ROLE_QUERY_ERROR.getUserMessage(),ErrorMessagesSQL.ROLE_QUERY_ERROR.getTechnicalMessage(),sqlException);
+            throw DataException.create(ErrorMessage.PREPARING_QUERY.getUserMessage(),ErrorMessage.PREPARING_QUERY.getTechnicalMessage(),sqlException);
         }
 
 
@@ -126,7 +119,10 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
 
     private void createJoin(final StringBuilder statement){
         statement.append("JOIN r ON u.ID_Role=r.ID_Role");
-        statement.append("JOIN t ON u.ID_TypeID=t.ID_TypeID");
+    }
+
+    private void createOrderBy(final StringBuilder statement){
+        statement.append("ORDER BY name ASC");
     }
 
     private void createWhere(final StringBuilder statement, final UserEntity filter, final List<Object> parameters){
@@ -144,7 +140,7 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
             statement.append("Email=? ");
             parameters.add(filter.getEmail());
 
-        } else if (!TextHelper.isEmptyAppplyingTrim(filter.getBornDate())) {
+        } else if (!TextHelper.isEmptyAppplyingTrim(String.valueOf(filter.getBornDate()))) {
             statement.append(parameters.isEmpty()? "WHERE ":"AND ");
             statement.append("BornDate=? ");
             parameters.add(filter.getBornDate());
@@ -159,17 +155,7 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
             statement.append(parameters.isEmpty()? "WHERE ":"AND ");
             statement.append("Role=? ");
             parameters.add(filter.getRole());
-
-        } else if (!ObjectHelper.isNull(filter.getTypeID())&&!UUIDHelper.isDefault(filter.getTypeID().getId())){
-            statement.append(parameters.isEmpty()? "WHERE ":"AND ");
-            statement.append("TypeID=? ");
-            parameters.add(filter.getRole());
-
         }
-    }
-
-    private void createOrderBy(final StringBuilder statement){
-        statement.append("ORDER BY name ASC");
     }
 
 }
