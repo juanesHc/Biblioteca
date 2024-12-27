@@ -6,7 +6,7 @@ import crosscutting.messages.DAOSource;
 
 public abstract class DAOFactory {
 
-    public final static DAOFactory gerFactory(final DAOSource source){
+    public final static DAOFactory getFactory(final DAOSource source){
         return null;
     }
 

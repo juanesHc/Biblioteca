@@ -7,6 +7,10 @@ public class RoleDTO extends DomainDTO{
 
     private String name;
 
+    public static RoleDTO create(){
+        return new RoleDTO();
+    }
+
     public RoleDTO() {
         super(UUIDHelper.getDefaultAssString());
         setName(TextHelper.EMPTY);

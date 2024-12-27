@@ -1,5 +1,5 @@
 package bibliotecaApp.Data.DAOInterface;
 
-public interface CreateDAO <T>{
+interface CreateDAO <T>{
     void create(T data);
 }

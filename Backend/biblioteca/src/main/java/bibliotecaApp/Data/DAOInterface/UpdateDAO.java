@@ -1,5 +1,5 @@
 package bibliotecaApp.Data.DAOInterface;
 
-public interface UpdateDAO<T> {
+interface UpdateDAO<T> {
     void update(T data);
 }

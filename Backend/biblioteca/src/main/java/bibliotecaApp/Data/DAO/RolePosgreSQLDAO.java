@@ -42,7 +42,7 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
 
         createSelect(statement);
         createFrom(statement);
-        createWhere(statement,filter,parameters);
+        createWhereToFindByFilter(statement,filter,parameters);
         createOrderBy(statement);
 
         try(final var preparedStatement=getConnection().prepareStatement(statement.toString())){
@@ -50,7 +50,7 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
                 var statementIndex= arrayIndex+1;
                 preparedStatement.setObject(statementIndex,parameters.getFirst());
 
-                try (final var result=preparedStatement.executeQuery();){
+                try (final var result=preparedStatement.executeQuery()){
 
                     while(result.next()){
                         var roleEntityTmp=new RoleEntity();
@@ -86,7 +86,7 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
         statement.append("FROM Role ");
     }
 
-    private void createWhere(final StringBuilder statement, final RoleEntity filter, final List<Object> parameters) {
+    private void createWhereToFindByFilter(final StringBuilder statement, final RoleEntity filter, final List<Object> parameters) {
         if (!ObjectHelper.isNull(filter)) {
             if(!UUIDHelper.isDefault(filter.getId())) {
                 statement.append("WHERE id=? ");
@@ -103,4 +103,58 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
     private void createOrderBy(final StringBuilder statement) {
         statement.append("ORDER BY name ASC ");
     }
+
+    @Override
+    public void create(RoleEntity data) {
+        final var statement= new StringBuilder();
+        statement.append("INSERT INTO role(id,name) VALUES(?,?)");
+        try (var preparedStatement=getConnection().prepareStatement(statement.toString())){
+            preparedStatement.setObject(1,data.getId());
+            preparedStatement.setObject(2,data.getName());
+        }catch(SQLException sqlException){
+            throw DataException.create(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
+                    ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(),
+                    sqlException);
+        }
+    }
+
+    @Override
+    public void delete(UUID data) {
+
+    }
+
+    @Override
+    public void update(RoleEntity filter) {
+        var statement=new StringBuilder();
+        var parameters=new ArrayList<>();
+
+        statement.append("UPDATE role SET name=?");
+        createWhereToUpdate(statement,filter,parameters);
+
+        try(final var preparedStatement= getConnection().prepareStatement(statement.toString())){
+            preparedStatement.setObject(1,filter.getId());
+            preparedStatement.setObject(2,filter.getName());
+        }catch (SQLException sqlException){
+            throw DataException.create(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
+                    ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(),
+                    sqlException);
+        }
+
+
+    }
+    private void createWhereToUpdate(final StringBuilder statement, final RoleEntity filter, final List<Object> parameters) {
+        if(!ObjectHelper.isNull(statement)){
+            if(!UUIDHelper.isDefault(filter.getId())) {
+                statement.append("WHERE id=? ");
+                parameters.add(filter.getId());
+            }
+            if(!TextHelper.isEmptyAppplyingTrim(filter.getName())){
+                statement.append(parameters.isEmpty()?"AND ":"WHERE ");
+                statement.append("name=? ");
+                parameters.add(filter.getName());
+            }
+        }
+    }
+
 }
+

@@ -13,8 +13,7 @@ class DomainEntity {
 
     protected UUID getId() {
 
-        return id
-                ;
+        return id;
     }
 
     protected void setIdentifier(UUID id) {
