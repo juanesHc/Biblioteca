@@ -1,4 +1,9 @@
 package bibliotecaApp.BusinessLogic.usecase.user;
 
-public interface FindUser {
+import bibliotecaApp.BusinessLogic.usecase.UseWithReturn;
+import bibliotecaApp.Domain.UserDomain;
+
+import java.util.List;
+
+public interface FindUser extends UseWithReturn<UserDomain, List<UserDomain>> {
 }

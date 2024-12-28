@@ -40,6 +40,47 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
 
     @Override
     public void delete(UUID data) {
+        var statement=new StringBuilder();
+        statement.append("DELETE FROM user");
+        whereToDelete(statement,data);
+
+        try(var preparedStatement=getConnection().prepareStatement(statement.toString())){
+            preparedStatement.setObject(1,data);
+        }catch(SQLException sqlException){
+
+            throw DataException.create(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
+                    ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(),
+                    sqlException);
+        }
+    }
+
+    private void whereToDelete(final StringBuilder statement,final UUID data){
+        if (!UUIDHelper.isDefault(data)){
+            statement.append(" WHERE id=? ");
+    }
+    }
+    @Override
+    public void update(UserEntity data) {
+        var statement=new StringBuilder();
+        statement.append("UPDATE user SET userName=? , email=? , bornDate=? , password=? , id_role=? ");
+        whereToUpdate(statement,data);
+        try(var preparedStatement=getConnection().prepareStatement(statement.toString())){
+            preparedStatement.setObject(1,data.getUserName());
+            preparedStatement.setObject(2,data.getEmail());
+            preparedStatement.setObject(3,data.getBornDate());
+            preparedStatement.setObject(4,data.getPassword());
+            preparedStatement.setObject(5,data.getRole());
+        }
+        catch(SQLException sqlException){
+            throw DataException.create(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
+                    ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(),
+                    sqlException);
+        }
+    }
+    private void whereToUpdate(final StringBuilder statement,final UserEntity data){
+        if(!UUIDHelper.isDefault(data.getId())){
+            statement.append("WHERE id=?");
+        }
 
     }
 
@@ -105,10 +146,6 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
         return results;
     }
 
-    @Override
-    public void update(UserEntity data) {
-
-    }
     private void createSelect(final StringBuilder statement){
         statement.append("SELECT u.id, u.userName, u.email, u.bornDate , u.password, r.ID_Role, t.ID_TypeID");
     }

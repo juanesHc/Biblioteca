@@ -1,6 +1,5 @@
-package bibliotecaApp.BusinessLogic.usecase.role.impl;
+package bibliotecaApp.BusinessLogic.usecase.user.impl;
 
-import bibliotecaApp.BusinessLogic.Adapters.AdapterEntity.RoleEntityAdapter;
 import bibliotecaApp.BusinessLogic.usecase.role.DeleteRole;
 import bibliotecaApp.Data.DAO.DAOFactory;
 import bibliotecaApp.Exceptions.BusinessLogicException;
@@ -10,21 +9,16 @@ import crosscutting.messages.Layer;
 
 import java.util.UUID;
 
-public final class DeleteRoleImpl implements DeleteRole {
+public final class DeleteUserImpl implements DeleteRole {
     private DAOFactory daoFactory;
 
-    public DeleteRoleImpl(DAOFactory daoFactory){
+    public DeleteUserImpl(DAOFactory daoFactory){
         setDaoFactory(daoFactory);
     }
 
-    @Override
-    public void execute(final UUID Data) {
-       daoFactory.getRoleDAO().delete(Data);
 
-    }
 
     private void setDaoFactory(DAOFactory daoFactory) {
-
         this.daoFactory = daoFactory;
         if(ObjectHelper.isNull(daoFactory)){
             throw BusinessLogicException.create(ErrorMessage.CONNECTION.getUserMessage(),
@@ -32,5 +26,10 @@ public final class DeleteRoleImpl implements DeleteRole {
                     new Exception(),
                     Layer.BUSINESSLOGIC);
         }
+    }
+
+    @Override
+    public void execute(UUID Data) {
+        daoFactory.getUserDAO().delete(Data);
     }
 }

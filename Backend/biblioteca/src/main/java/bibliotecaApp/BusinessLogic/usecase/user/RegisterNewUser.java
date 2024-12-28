@@ -1,4 +1,7 @@
 package bibliotecaApp.BusinessLogic.usecase.user;
 
-public interface RegisterNewUser {
+import bibliotecaApp.BusinessLogic.usecase.UseWithoutReturn;
+import bibliotecaApp.Domain.UserDomain;
+
+public interface RegisterNewUser extends UseWithoutReturn<UserDomain> {
 }

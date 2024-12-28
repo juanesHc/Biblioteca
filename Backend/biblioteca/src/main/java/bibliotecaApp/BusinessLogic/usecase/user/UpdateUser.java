@@ -1,4 +1,7 @@
 package bibliotecaApp.BusinessLogic.usecase.user;
 
-public interface UpdateUser {
+import bibliotecaApp.BusinessLogic.usecase.UseWithoutReturn;
+import bibliotecaApp.Domain.UserDomain;
+
+public interface UpdateUser extends UseWithoutReturn<UserDomain> {
 }

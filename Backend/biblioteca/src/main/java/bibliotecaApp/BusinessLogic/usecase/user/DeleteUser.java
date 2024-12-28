@@ -1,4 +1,8 @@
 package bibliotecaApp.BusinessLogic.usecase.user;
 
-public interface DeleteUser {
+import bibliotecaApp.BusinessLogic.usecase.UseWithoutReturn;
+
+import java.util.UUID;
+
+public interface DeleteUser extends UseWithoutReturn<UUID> {
 }

@@ -7,6 +7,7 @@ import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 import crosscutting.helpers.UUIDHelper;
 import crosscutting.messages.ErrorMessage;
+import crosscutting.messages.Layer;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,6 +22,7 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
         super(connection);
     }
 
+    //Para Consultar
 
     @Override
     public RoleEntity findById(UUID id) {
@@ -104,6 +106,8 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
         statement.append("ORDER BY name ASC ");
     }
 
+    //Para Insertar
+
     @Override
     public void create(RoleEntity data) {
         final var statement= new StringBuilder();
@@ -120,7 +124,26 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
 
     @Override
     public void delete(UUID data) {
+        final var statement= new StringBuilder();
+        statement.append("DELETE FROM role ");
+        createWhereToDelete(statement,data);
 
+        try(var preparedStatement=getConnection().prepareStatement(statement.toString())){
+            preparedStatement.setObject(1,data);
+        }catch (SQLException sqlException)
+        {throw DataException.create(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
+                ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(),
+                sqlException,
+                Layer.DATA);
+        }
+    }
+
+    private void createWhereToDelete(final StringBuilder statement,final UUID data){
+        if(!ObjectHelper.isNull(statement)){
+            if(!UUIDHelper.isDefault(data)){
+                statement.append("WHERE id=?");
+            }
+        }
     }
 
     @Override
@@ -131,13 +154,13 @@ class RolePosgreSQLDAO extends SQLDAO implements RoleDAO {
         statement.append("UPDATE role SET name=?");
         createWhereToUpdate(statement,filter,parameters);
 
-        try(final var preparedStatement= getConnection().prepareStatement(statement.toString())){
-            preparedStatement.setObject(1,filter.getId());
-            preparedStatement.setObject(2,filter.getName());
-        }catch (SQLException sqlException){
-            throw DataException.create(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
-                    ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(),
-                    sqlException);
+        try(var preparedStatement=getConnection().prepareStatement(statement.toString())){
+            preparedStatement.setObject(1,filter.getName());
+        }catch (SQLException sqlException)
+        {throw DataException.create(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
+                ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(),
+                sqlException,
+                Layer.DATA);
         }
 
 

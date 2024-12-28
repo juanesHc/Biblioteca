@@ -14,7 +14,8 @@ public enum ErrorMessage {
     VALIDATE_TRANSACTION("Se ha presentado un problema inesperado intenando validar la transacción","Se ha presentado una excepcion de tipo SQLException intentando validar la transacción para más información revisar el log de errores"),
     WAS_NOT_INITIALIZED("Se ha presentado un problema inesperado intenando validar la transacción","La transacción no ha sido inicializada previamente"),
     CLOSE_TRANSACTION("Se ha presentado un problema inesperado intenando cerrar la conexión","Se ha presentado una excepción de tipo SQLException cerrando la transacción, para más detalles revise el log de errores"),
-    OPEN_TRANSACTION("Se ha presentado un problema inesperado intenando validar la transacción","Se ha presentado una excepción de tipo SQLException abriendo la transacción, para más detalles revise el log de errores");
+    OPEN_TRANSACTION("Se ha presentado un problema inesperado intenando validar la transacción","Se ha presentado una excepción de tipo SQLException abriendo la transacción, para más detalles revise el log de errores"),
+    DAO_FACTORY("Se ha prensentando un problema tratando de llevar a cabo la operacion deseada...","No existe una factoria implementada para ");
 
     private final String userMessage;
     private final String technicalMessage;
