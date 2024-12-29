@@ -20,7 +20,7 @@ public final class FindUserImpl implements FindUser {
 
     private DAOFactory daoFactory;
 
-    public FindUserImpl(DAOFactory daoFactory){
+    public FindUserImpl(final DAOFactory daoFactory){
         setDaoFactory(daoFactory);
     }
 

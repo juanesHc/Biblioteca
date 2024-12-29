@@ -7,6 +7,7 @@ public class TextHelper {
     public static final String EMPTY = "";
     public static final String ONLY_LETTERS_SPACES = "^[A-Za-záÁéÉíÍóÓúÚñÑ]+(?: [A-Za-záÁéÉíÍóÓúÚñÑ]+)*$";
     public static final String ONLY_NUMBERS = "^[0-9]*$";
+    public static final String LETTERS_NUMBERS=ONLY_NUMBERS+ONLY_LETTERS_SPACES;
     public static final LocalDate EMPTYBORNDATE=LocalDate.of(1001, 1, 1);;
 
     private TextHelper() {
@@ -19,6 +20,10 @@ public class TextHelper {
 
     public static boolean containOnlyLettersAndSpace(final String string) {
         return patterIsValid(string, ONLY_LETTERS_SPACES);
+    }
+
+    public static boolean containsLettersAndNumbers(final String string){
+        return patterIsValid(string,LETTERS_NUMBERS);
     }
 
     public static boolean containOnlyNumbers(final String string) {

@@ -15,7 +15,12 @@ public enum ErrorMessage {
     WAS_NOT_INITIALIZED("Se ha presentado un problema inesperado intenando validar la transacción","La transacción no ha sido inicializada previamente"),
     CLOSE_TRANSACTION("Se ha presentado un problema inesperado intenando cerrar la conexión","Se ha presentado una excepción de tipo SQLException cerrando la transacción, para más detalles revise el log de errores"),
     OPEN_TRANSACTION("Se ha presentado un problema inesperado intenando validar la transacción","Se ha presentado una excepción de tipo SQLException abriendo la transacción, para más detalles revise el log de errores"),
-    DAO_FACTORY("Se ha prensentando un problema tratando de llevar a cabo la operacion deseada...","No existe una factoria implementada para ");
+    DAO_FACTORY("Se ha prensentando un problema tratando de llevar a cabo la operacion deseada...","No existe una factoria implementada para "),
+    VALIDATE_IF_USERNAME_IS_UNIQUE("Se ha presentado un problema, Ya existe un usuario llamado ","No es posible registrar un usuario con un userName ya existente "),
+    VALIDATE_IF_PASSWORD_IS_UNIQUE("Se ha presentado un problema, Ya existe un usuario con dicha contraseña","No es posible registrar un usuario con una password ya existente"),
+    VALIDATE_IF_USERNAME_IS_VALID("Se ha presentado un error , el nombre de usuario no es valido","Se ha presentado un error , el nombre de usuario no es valido"),
+    REGISTER_USER("Se ha presentado un error inesperado registrando un usuario","Se ha presentado un error registrando un usuario ,por favor, para más detalles revise el log de errores"),
+    FIND_USER("Se ha presentado un error inesperado consultando un usuario","Se ha presentado un error consultando la informacion del usuario ,por favor, para más detalles revise el log de errores");
 
     private final String userMessage;
     private final String technicalMessage;

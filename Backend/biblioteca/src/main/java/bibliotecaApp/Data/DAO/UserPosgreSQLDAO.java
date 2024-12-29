@@ -139,7 +139,9 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
             }
 
         }catch(SQLException sqlException){
-            throw DataException.create(ErrorMessage.PREPARING_QUERY.getUserMessage(),ErrorMessage.PREPARING_QUERY.getTechnicalMessage(),sqlException);
+            throw DataException.create(ErrorMessage.PREPARING_QUERY.getUserMessage(),
+                    ErrorMessage.PREPARING_QUERY.getTechnicalMessage(),
+                    sqlException);
         }
 
 
@@ -147,7 +149,7 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
     }
 
     private void createSelect(final StringBuilder statement){
-        statement.append("SELECT u.id, u.userName, u.email, u.bornDate , u.password, r.ID_Role, t.ID_TypeID");
+        statement.append("SELECT u.id, u.userName, u.email, u.bornDate , u.password, r.ID_Role ");
     }
 
     private void createFrom(final StringBuilder statement){
