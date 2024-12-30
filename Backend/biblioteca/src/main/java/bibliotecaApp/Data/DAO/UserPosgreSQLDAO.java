@@ -20,20 +20,41 @@ class UserPosgreSQLDAO extends SQLDAO implements UserDAO {
         super(connection);
     }
 
+    private UUID getIdRole(){
+
+        try (final var preparedStatement=getConnection().prepareStatement("SELECT id FROM role WHERE name= 'Usuario' ")){
+
+            var resultQuery=preparedStatement.executeQuery();
+
+            if(resultQuery.next()){
+                return resultQuery.getObject("id", UUID.class);
+            }else {
+                throw DataException.create(ErrorMessage.PREPARING_QUERY.getUserMessage(),
+                        ErrorMessage.PREPARING_QUERY.getTechnicalMessage(),new Exception());
+            }
+
+        }catch(SQLException sqlException){
+            throw DataException.create(ErrorMessage.PREPARING_QUERY.getUserMessage(),
+                    ErrorMessage.PREPARING_QUERY.getTechnicalMessage(),sqlException);
+        }
+
+    }
+
     @Override
-    public void create(UserEntity data) {
+    public void create(final UserEntity data) {
         final var statement= new StringBuilder();
-        statement.append("INSERT INTO User(id,userName,email,bornDate,password,ID_Role,ID_TypeID) VALUES(?,?,?,?,?,?,?)");
+        statement.append("INSERT INTO User(id,userName,email,bornDate,password,ID_Role) VALUES(?,?,?,?,?,?)");
         try(final var preparedStatement=getConnection().prepareStatement(statement.toString())){
             preparedStatement.setObject(1,data.getId());
             preparedStatement.setObject(2,data.getUserName());
             preparedStatement.setObject(3,data.getEmail());
             preparedStatement.setObject(4,data.getBornDate());
             preparedStatement.setObject(5,data.getPassword());
-            preparedStatement.setObject(6,data.getRole());
+            preparedStatement.setObject(6,getIdRole());
         }catch(SQLException sqlException){
 
-            throw new DataException(ErrorMessage.EXECUTING_QUERY.getUserMessage(),ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(), sqlException);
+            throw new DataException(ErrorMessage.EXECUTING_QUERY.getUserMessage(),
+                    ErrorMessage.EXECUTING_QUERY.getTechnicalMessage(), sqlException);
 
         }
     }

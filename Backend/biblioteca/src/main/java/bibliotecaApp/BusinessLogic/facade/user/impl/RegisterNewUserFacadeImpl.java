@@ -15,7 +15,7 @@ public class RegisterNewUserFacadeImpl implements RegisterNewUserFacade {
 
     private DAOFactory daoFactory;
 
-    public RegisterNewUserFacadeImpl(DAOFactory daoFactory){
+    public RegisterNewUserFacadeImpl(){
         setDaoFactory(daoFactory);
     }
 
