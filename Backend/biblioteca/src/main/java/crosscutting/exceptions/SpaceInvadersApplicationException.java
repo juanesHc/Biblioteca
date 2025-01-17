@@ -6,15 +6,15 @@ import crosscutting.helpers.ObjectHelper;
 import crosscutting.helpers.TextHelper;
 
 
-public class BibliotecaApplicationException extends RuntimeException {
+public class SpaceInvadersApplicationException extends RuntimeException {
 
 	private static final long serialVersionUID = -7682900863325465078L;
 
 	private String userMessage;
 	private Layer layer;
 
-	public BibliotecaApplicationException(final String userMessage, final String technicalMessage,
-										  final Exception rootException, final Layer layer) {
+	public SpaceInvadersApplicationException(final String userMessage, final String technicalMessage,
+											 final Exception rootException, final Layer layer) {
 
 		super(TextHelper.applyTrim(technicalMessage), ObjectHelper.getDefault(rootException, new Exception()));
 

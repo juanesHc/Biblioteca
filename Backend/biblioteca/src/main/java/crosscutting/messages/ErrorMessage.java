@@ -20,7 +20,8 @@ public enum ErrorMessage {
     VALIDATE_IF_PASSWORD_IS_UNIQUE("Se ha presentado un problema, Ya existe un usuario con dicha contraseña","No es posible registrar un usuario con una password ya existente"),
     VALIDATE_IF_USERNAME_IS_VALID("Se ha presentado un error , el nombre de usuario no es valido","Se ha presentado un error , el nombre de usuario no es valido"),
     REGISTER_USER("Se ha presentado un error inesperado registrando un usuario","Se ha presentado un error registrando un usuario ,por favor, para más detalles revise el log de errores"),
-    FIND_USER("Se ha presentado un error inesperado consultando un usuario","Se ha presentado un error consultando la informacion del usuario ,por favor, para más detalles revise el log de errores");
+    FIND_USER("Se ha presentado un error inesperado consultando un usuario","Se ha presentado un error consultando la informacion del usuario ,por favor, para más detalles revise el log de errores"),
+    VALIDATE_IF_EMAIL_IS_VALID("Se ha presentado un error , el correo de usuario no es valido","Se ha presentado un error , el correo de usuario no es valido");
 
     private final String userMessage;
     private final String technicalMessage;
